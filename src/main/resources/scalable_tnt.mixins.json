@@ -1,0 +1,12 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.bettercontent.scalabletnt.mixin",
+  "compatibilityLevel": "JAVA_17",
+  "mixins": [
+    "PrimedTntExplosionMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
