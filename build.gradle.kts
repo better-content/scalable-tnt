@@ -28,6 +28,13 @@ minecraft {
         }
         create("client")
         create("server") { arg("--nogui") }
+        create("gameTestServer") {
+            workingDirectory(project.file("run-gametest"))
+            property("forge.enableGameTest", "true")
+            property("forge.gameTestServer", "true")
+            property("forge.enabledGameTestNamespaces", modId)
+            arg("--nogui")
+        }
     }
 }
 
@@ -45,6 +52,46 @@ dependencies {
 }
 
 mixin { config("scalable_tnt.mixins.json") }
+
+tasks.named<Jar>("jar") { finalizedBy("reobfJar") }
+val stageRuntimeJar by tasks.registering(Copy::class) {
+    dependsOn(tasks.named("reobfJar"))
+    from(layout.buildDirectory.file("reobfJar/output.jar"))
+    into(layout.buildDirectory.dir("libs"))
+    rename { "${base.archivesName.get()}-$version.jar" }
+}
+tasks.named("assemble") { dependsOn(stageRuntimeJar) }
+val syncGameTestStructures by tasks.registering(Copy::class) {
+    from("src/main/resources/gameteststructures")
+    into("run-gametest/gameteststructures")
+}
+tasks.matching { it.name.startsWith("prepareRunGameTestServer") }.configureEach {
+    dependsOn(syncGameTestStructures)
+}
+var gameTestStartedAt = 0L
+tasks.matching { it.name == "runGameTestServer" }.configureEach {
+    doFirst { gameTestStartedAt = System.currentTimeMillis() }
+    doLast {
+        val log = layout.projectDirectory.file("run-gametest/logs/latest.log").asFile
+        if (!log.isFile || log.lastModified() < gameTestStartedAt) {
+            throw GradleException("GameTest server returned without a fresh execution log")
+        }
+        val report = log.readText()
+        if (!report.contains("1 tests are now running!")
+            || !report.contains("1 GAME TESTS COMPLETE")
+            || !report.contains("All 1 required tests passed :)")) {
+            throw GradleException("Scalable TNT GameTest did not execute and pass its required profile")
+        }
+    }
+}
+tasks.register("verifyFast") {
+    group = "verification"
+    dependsOn(tasks.named("check"))
+}
+tasks.register("verifyFull") {
+    group = "verification"
+    dependsOn(tasks.named("verifyFast"), tasks.named("runGameTestServer"))
+}
 
 tasks.processResources {
     val props = mapOf(

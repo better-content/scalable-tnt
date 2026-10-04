@@ -1,8 +1,10 @@
 package com.bettercontent.scalabletnt;
 
 import com.bettercontent.scalabletnt.block.ScalableTntContent;
+import com.bettercontent.scalabletnt.gametest.ScalableTntGameTests;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraftforge.event.BuildCreativeModeTabContentsEvent;
+import net.minecraftforge.event.RegisterGameTestsEvent;
 import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
@@ -17,6 +19,7 @@ public final class ScalableTntMod {
         ScalableTntContent.BLOCKS.register(modBus);
         ScalableTntContent.ITEMS.register(modBus);
         modBus.addListener(this::addCreativeItems);
+        modBus.addListener(this::registerGameTests);
         ScalableTntContent.registerDispenserBehaviors(modBus);
     }
 
@@ -25,5 +28,9 @@ public final class ScalableTntMod {
             event.accept(ScalableTntContent.LOW_YIELD_ITEM);
             event.accept(ScalableTntContent.HIGH_YIELD_ITEM);
         }
+    }
+
+    private void registerGameTests(final RegisterGameTestsEvent event) {
+        event.register(ScalableTntGameTests.class);
     }
 }

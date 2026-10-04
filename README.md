@@ -11,4 +11,4 @@ Dispenser use primes the variant with the same fuse and consumes one item. Flint
 
 ## Verification
 
-`./gradlew test` runs pure composition and resource-contract unit tests. Runtime mixin application, actual recipe registration, explosion structure effects, EMI presentation, and the client/server package pair remain outside this source slice.
+`./gradlew verifyFast` runs composition and parsed-resource tests. `./gradlew verifyFull stageRuntimeJar` also starts the Forge GameTest server, verifies that both authored variants prime with distinct power tags through redstone and fire paths while ordinary TNT remains untagged, and stages the reobfuscated JAR. The full-pack Dist and Debug tiers cover packaged integration and world behavior.
