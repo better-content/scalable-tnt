@@ -1,11 +1,12 @@
 # Scalable TNT
 
-## Scope
+Forge 1.20.1 / Java 17; mod ID `scalable_tnt`.
+Two shapeless sand/gunpowder strengths retain ordinary TNT/fuse/ignition and Level explosion
+entry point, so TNTUtils/Explosion Overhaul observe native behavior.
+Deterministic: `./gradlew verifyFast`; source/runtime gate: `./gradlew verifyFull stageRuntimeJar`
+(authored-variant and vanilla TNT GameTests must execute/pass).
+Artifact: `build/libs/scalable-tnt-0.1.0.jar`.
 
-Forge 1.20.1 mod that adds two shapeless sand/gunpowder TNT strengths while keeping the ordinary TNT block and vanilla fuse/ignition behavior. Its explosion travels through the ordinary Level explosion entry point so TNTUtils and Explosion Overhaul continue to observe it.
-
-## Verification
-
-Run `./gradlew verifyFast` for composition and resource checks. Run `./gradlew verifyFull stageRuntimeJar` before committing or deploying; the full gate requires the authored-variant and vanilla TNT GameTest to execute and pass. The deployable reobfuscated JAR is `build/libs/scalable-tnt-0.1.0.jar`. Pack deployment and pack suites follow the modpack's separate policy.
-
-Do not commit or stage runtime output, local configs, logs, caches or generated worlds.
+Read [shared workspace policy](../../better-content-modpack/docs/policies/workspace.md)
+and its linked testing/disposal policies. Docs-only changes use the shared document check
+and `git diff --check`, not unrelated runtime builds.

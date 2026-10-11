@@ -1,5 +1,11 @@
 # Scalable TNT
 
+## Scope and authority
+
+This repository owns its mod-specific behavior and authoring inputs. Read [local instructions](AGENTS.md)
+and the [shared documentation/policy index](../../better-content-modpack/docs/README.md).
+
+
 Adds two shapeless sand/gunpowder compositions alongside vanilla TNT:
 
 - Six ordinary sand and three gunpowder produce Low-yield TNT (blast power 3.0).
