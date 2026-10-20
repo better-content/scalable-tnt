@@ -1,5 +1,20 @@
 # Scalable TNT
 
+## Playtest logging
+
+`bc.playtest.scalable_tnt.priming` records the actual native insertion result;
+`.explosion` records only the native power-argument handoff, not explosion completion.
+These bounded DEBUG records share the existing primed entity UUID and dimension to correlate
+chain reactions. They contain no owner/player identity or entity NBT. A focused TRACE can include
+that entity's block position: set `bc.playtest.trace.scalable_tnt.dimension` and exactly one of
+`.subject` (entity UUID) or `.pos` (`x,y,z`), and enable the native TRACE logger. It arms on the first
+match for at most 60 seconds/1,000 records, once per process. Ordinary DEBUG/TRACE share 120/minute,
+burst 20, 256 aggregation keys and 2,048-character records. Native tick boundaries emit coalesced
+30-second summaries; server stop/client disconnect clear transient keys without rearming allowances.
+Startup INFO identifies loaded version, effective mode and limits; unavailable source identity is
+`UNKNOWN`. Pure emitter/contracts and the existing native authored/vanilla TNT assertions are
+complementary checks, not full-pack acceptance.
+
 ## Scope and authority
 
 This repository owns its mod-specific behavior and authoring inputs. Read [local instructions](AGENTS.md)

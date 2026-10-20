@@ -40,7 +40,21 @@ public final class ScalableTntBlock extends TntBlock {
         }
         final PrimedTnt primed = new PrimedTnt(level, x, y, z, owner);
         primed.getPersistentData().putFloat(ScalableTntMod.POWER_DATA_KEY, variant.power());
-        return level.addFreshEntity(primed);
+        final boolean inserted = level.addFreshEntity(primed);
+        if (com.bettercontent.scalabletnt.PlaytestDiagnostics.LOG.enabled("priming")) {
+            com.bettercontent.scalabletnt.diagnostics.TntTelemetry.primed(com.bettercontent.scalabletnt.PlaytestDiagnostics.LOG, inserted,
+                    new com.bettercontent.scalabletnt.diagnostics.PlaytestLog.Context("server", level.dimension().location().toString(),
+                            level.getGameTime(), primed.getUUID().toString(), ""), variant.power());
+        }
+        if (com.bettercontent.scalabletnt.PlaytestDiagnostics.LOG.traceEnabled("priming")) {
+            final BlockPos pos = primed.blockPosition();
+            com.bettercontent.scalabletnt.PlaytestDiagnostics.LOG.trace("priming", "tnt.prime_focus",
+                    new com.bettercontent.scalabletnt.diagnostics.PlaytestLog.Context("server", level.dimension().location().toString(),
+                            level.getGameTime(), primed.getUUID().toString(), pos.getX() + "," + pos.getY() + "," + pos.getZ()),
+                    inserted ? "inserted" : "rejected", "focused_native_insertion",
+                    () -> com.bettercontent.scalabletnt.diagnostics.PlaytestLog.fields("power", variant.power()));
+        }
+        return inserted;
     }
 
     private void primeAndRemove(

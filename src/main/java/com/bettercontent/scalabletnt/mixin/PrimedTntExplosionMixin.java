@@ -22,6 +22,13 @@ abstract class PrimedTntExplosionMixin {
         if (!entity.getPersistentData().contains(ScalableTntMod.POWER_DATA_KEY, Tag.TAG_FLOAT)) {
             return vanillaPower;
         }
-        return TntComposition.boundedPower(entity.getPersistentData().getFloat(ScalableTntMod.POWER_DATA_KEY));
+        final float rawPower = entity.getPersistentData().getFloat(ScalableTntMod.POWER_DATA_KEY);
+        final float resolvedPower = TntComposition.boundedPower(rawPower);
+        if (com.bettercontent.scalabletnt.PlaytestDiagnostics.LOG.enabled("explosion")) {
+            com.bettercontent.scalabletnt.diagnostics.TntTelemetry.explosionHandoff(com.bettercontent.scalabletnt.PlaytestDiagnostics.LOG,
+                    new com.bettercontent.scalabletnt.diagnostics.PlaytestLog.Context("server", entity.level().dimension().location().toString(),
+                            entity.level().getGameTime(), entity.getUUID().toString(), ""), rawPower, resolvedPower);
+        }
+        return resolvedPower;
     }
 }
