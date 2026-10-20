@@ -107,3 +107,5 @@ tasks.processResources {
 
 tasks.withType<JavaCompile>().configureEach { options.release.set(17) }
 tasks.withType<Test>().configureEach { useJUnitPlatform() }
+
+apply(from = "gradle/native-gametest-fixture.gradle")

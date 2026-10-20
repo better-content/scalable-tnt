@@ -1,5 +1,12 @@
 # Scalable TNT
 
+## Native fixture verification
+
+`verifyFast` includes absent-settings/preserve-existing and strict ERROR/FATAL guard regressions.
+Before source GameTest bootstrap, the actual working directory receives a defaults-only
+`server.properties` only if absent; existing settings are never replaced. The full native gate
+rejects ERROR/FATAL diagnostics even when required tests and the process report success.
+
 ## Playtest logging
 
 `bc.playtest.scalable_tnt.priming` records the actual native insertion result;
