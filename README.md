@@ -22,11 +22,7 @@ Startup INFO identifies loaded version, effective mode and limits; unavailable s
 `UNKNOWN`. Pure emitter/contracts and the existing native authored/vanilla TNT assertions are
 complementary checks, not full-pack acceptance.
 
-## Scope and authority
-
-This repository owns its mod-specific behavior and authoring inputs. Read [local instructions](AGENTS.md)
-and the [shared documentation/policy index](../../better-content-modpack/docs/README.md).
-
+## Scope
 
 Adds two shapeless sand/gunpowder compositions alongside vanilla TNT:
 
